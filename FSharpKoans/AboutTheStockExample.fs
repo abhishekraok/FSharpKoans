@@ -60,6 +60,15 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (x:string) =
+            x.Split([|','|])
+        let intResult =
+            stockData.Tail
+            |> List.map splitCommas
+            |> List.map (fun x -> [x.[0]; x.[1]; x.[6]])
+            |> List.map (fun list-> (list.[0], [System.Double.Parse list.[1]; System.Double.Parse list.[2]]))
+            |> List.map (fun tuple -> (fst tuple, abs( (snd tuple).[0] - (snd tuple).[1])))
+            |> List.maxBy snd
+        let result = fst intResult 
         
         AssertEquality "2012-03-13" result
